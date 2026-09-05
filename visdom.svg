@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="819" height="819" viewBox="0 0 819 819">
+  <defs>
+    <clipPath id="iconClip">
+      <rect x="120" y="117" width="580" height="588" rx="155" ry="155"/>
+    </clipPath>
+
+    <linearGradient id="topGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A66E8"/>
+      <stop offset="100%" stop-color="#1479E7"/>
+    </linearGradient>
+
+    <linearGradient id="midGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#18A9F3"/>
+      <stop offset="100%" stop-color="#0B8DE7"/>
+    </linearGradient>
+
+    <linearGradient id="botGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#63CEF4"/>
+      <stop offset="100%" stop-color="#54BFE9"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#iconClip)">
+    <rect x="120" y="117" width="580" height="588" fill="url(#topGrad)"/>
+
+    <!-- Middle wave -->
+    <path d="
+      M 120 263
+      C 132 236, 148 231, 160 246
+      C 175 264, 186 280, 198 271
+      C 211 262, 217 231, 232 234
+      C 246 238, 258 287, 270 334
+      C 282 382, 291 416, 311 405
+      C 327 396, 341 340, 361 312
+      C 374 293, 387 291, 400 304
+      C 418 323, 429 340, 448 343
+      C 469 346, 486 341, 507 350
+      C 528 359, 543 381, 560 381
+      C 579 381, 595 349, 611 329
+      C 627 309, 641 303, 658 307
+      C 675 311, 690 321, 700 305
+      L 700 705
+      L 120 705
+      Z"
+      fill="url(#midGrad)"/>
+
+    <!-- Bottom wave -->
+    <path d="
+      M 120 446
+      C 130 469, 141 478, 157 469
+      C 171 461, 182 461, 194 467
+      C 209 475, 224 502, 244 520
+      C 260 534, 274 543, 290 535
+      C 305 528, 314 513, 330 505
+      C 348 497, 374 503, 392 493
+      C 412 482, 422 456, 441 453
+      C 462 450, 476 484, 489 517
+      C 500 545, 511 570, 528 566
+      C 545 561, 554 522, 566 476
+      C 577 434, 582 396, 597 392
+      C 611 388, 618 419, 633 428
+      C 649 438, 658 411, 676 400
+      C 687 394, 695 400, 700 410
+      L 700 705
+      L 120 705
+      Z"
+      fill="url(#botGrad)"/>
+  </g>
+</svg>

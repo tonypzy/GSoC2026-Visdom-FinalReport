@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="920" height="147" viewBox="0 0 920 147">
+  <rect width="920" height="147" fill="#FFFFFF"/>
+  <g transform="translate(0.5,0.5)">
+    
+  <polygon points="
+    73,0 95,22 124,22 124,51
+    146,73 124,95 124,124 95,124
+    73,146 51,124 22,124 22,95
+    0,73 22,51 22,22 51,22"
+    fill="#F9AB00"/>
+  <circle cx="73" cy="73" r="42" fill="#E37400"/>
+  <polyline points="57,60 44,73 57,86"
+    fill="none" stroke="#FFFFFF" stroke-width="8"
+    stroke-linecap="square" stroke-linejoin="miter"/>
+  <polyline points="89,60 102,73 89,86"
+    fill="none" stroke="#FFFFFF" stroke-width="8"
+    stroke-linecap="square" stroke-linejoin="miter"/>
+  <line x1="81" y1="52" x2="66" y2="94"
+    stroke="#FFFFFF" stroke-width="8" stroke-linecap="square"/>
+
+  </g>
+  <text x="192" y="97"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="66"
+        font-weight="400"
+        letter-spacing="-1.2"
+        fill="#8D8D8F">Google Summer of Code</text>
+</svg>

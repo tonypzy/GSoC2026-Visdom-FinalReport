@@ -1,0 +1,219 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+
+:root {
+  --pst-color-primary: #0d6efd;
+  --pst-color-link: #0d6efd;
+  --pst-color-link-hover: #084298;
+  --report-sidebar-primary: 17rem;
+  --pst-sidebar-secondary: 300px;
+  --pst-font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --pst-font-family-heading: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html[data-theme="light"] {
+  --pst-color-text-base: #242a35;
+  --pst-color-border: #d9dee7;
+  --pst-color-background: #ffffff;
+}
+
+body {
+  font-size: 1.05rem;
+  line-height: 1.62;
+}
+
+.bd-main .bd-content .bd-article-container {
+  max-width: 68rem;
+}
+
+.bd-page-width {
+  max-width: 100%;
+}
+
+.bd-article h1,
+.bd-article h2,
+.bd-article h3,
+.bd-article h4 {
+  color: var(--pst-color-text-base);
+  font-family: var(--pst-font-family-heading);
+  letter-spacing: -0.025em;
+}
+
+.bd-article h1 {
+  font-size: clamp(2.35rem, 4vw, 3.25rem);
+  font-weight: 700;
+  margin-bottom: 2.25rem;
+}
+
+.bd-article h2 {
+  font-size: clamp(1.9rem, 3vw, 2.45rem);
+  font-weight: 650;
+  margin-top: 2.7rem;
+}
+
+.bd-article h3 {
+  font-size: clamp(1.55rem, 2.4vw, 2rem);
+  font-weight: 600;
+  margin-top: 2.25rem;
+}
+
+.bd-article .project-subtitle {
+  color: var(--pst-color-text-base);
+  font-family: var(--pst-font-family-heading);
+  font-size: clamp(1.85rem, 3vw, 2.55rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 0 9rem 2.5rem 0;
+}
+
+.bd-article p,
+.bd-article li {
+  max-width: 100%;
+}
+
+.bd-article a {
+  text-underline-offset: 0.16em;
+}
+
+/* Match the reference page's large GSoC mark above the left navigation. */
+.navbar-brand.logo {
+  justify-content: center;
+  margin: 0.6rem auto 1.5rem;
+  overflow: hidden;
+  width: 9.5rem;
+}
+
+.navbar-brand.logo img {
+  height: 9.5rem;
+  max-height: none;
+  max-width: none;
+  object-fit: cover;
+  object-position: left center;
+  width: 9.5rem;
+}
+
+/* Sphinx Book Theme renders a mobile-only search icon unconditionally. */
+.search-button__button {
+  display: none !important;
+}
+
+.bd-sidebar-primary {
+  border-right: 1px solid var(--pst-color-border);
+}
+
+.bd-sidebar-primary nav.bd-links p.caption,
+.bd-sidebar-primary .bd-sidenav a,
+.bd-sidebar-secondary .onthispage,
+.bd-sidebar-secondary .toc-entry a {
+  font-size: 15px;
+}
+
+/* Give top-level entries in every page's Contents tree more hierarchy. */
+.bd-sidebar-secondary .toc-h2 > a {
+  font-weight: 650;
+}
+
+/* Keep the homepage link inside the GSoC 2026 navigation group. */
+.bd-sidebar-primary .bd-toc-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.bd-sidebar-primary .bd-toc-item > .caption {
+  order: 1;
+}
+
+.bd-sidebar-primary .bd-toc-item > .bd-sidenav__home-link {
+  margin-bottom: 0;
+  order: 2;
+}
+
+.bd-sidebar-primary
+  .bd-toc-item
+  > .bd-sidenav:not(.bd-sidenav__home-link) {
+  order: 3;
+}
+
+.bd-sidebar-secondary {
+  border-left: 1px solid var(--pst-color-border);
+}
+
+@media (min-width: 1200px) {
+  .bd-sidebar-primary {
+    flex: 0 0 var(--report-sidebar-primary);
+    max-width: var(--report-sidebar-primary);
+  }
+
+  .bd-sidebar-primary.pst-sidebar-hidden,
+  input#pst-primary-sidebar-checkbox:checked
+    ~ .bd-container
+    .bd-sidebar-primary {
+    margin-left: calc(-1 * var(--report-sidebar-primary));
+  }
+
+  .bd-main .bd-content .bd-article-container {
+    max-width: calc(100% - var(--pst-sidebar-secondary));
+  }
+
+  .bd-sidebar-secondary {
+    flex: 0 0 var(--pst-sidebar-secondary);
+    max-width: var(--pst-sidebar-secondary);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+.visdom-project-logo {
+  background: transparent;
+  display: block;
+  float: right;
+  height: 7rem;
+  margin: -1.25rem 0 1.25rem 2rem;
+  width: 7rem;
+}
+
+.bd-footer-content {
+  border-top: 1px solid var(--pst-color-border);
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  body {
+    font-size: 1rem;
+  }
+
+  .visdom-project-logo {
+    float: none;
+    height: 5.5rem;
+    margin: 0 0 1.5rem;
+    width: 5.5rem;
+  }
+
+  .bd-article .project-subtitle {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 991.98px) {
+  body.report-primary-sidebar-open {
+    overflow: hidden;
+  }
+
+  body.report-primary-sidebar-open::before {
+    background: rgb(0 0 0 / 42%);
+    content: "";
+    inset: 0;
+    position: fixed;
+    z-index: 1040;
+  }
+
+  .bd-sidebar-primary.report-sidebar-open {
+    box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 22%);
+    margin-left: 0 !important;
+    visibility: visible !important;
+    z-index: 1050;
+  }
+}
