@@ -77,6 +77,24 @@ body {
   text-underline-offset: 0.16em;
 }
 
+.feature-demo-video {
+  margin: 1.5rem 0 2.5rem;
+  text-align: center;
+}
+
+.feature-demo-video video {
+  background: #000;
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.feature-demo-video figcaption {
+  color: var(--pst-color-text-muted);
+  font-size: 0.95rem;
+  margin-top: 0.75rem;
+}
+
 /* Match the reference page's large GSoC mark above the left navigation. */
 .navbar-brand.logo {
   justify-content: center;

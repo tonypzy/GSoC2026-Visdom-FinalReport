@@ -14,6 +14,27 @@ third introduces a shared server-state architecture so request handlers no
 longer depend directly on the Tornado application. All 50 pull requests listed
 in the :doc:`pull-request-inventory` have been merged upstream.
 
+Feature Demonstration: Tagging and Optuna Integration
+-----------------------------------------------------
+
+This demo presents the experiment-tagging workflow and the Optuna integration,
+including study dashboards, multi-objective visualizations, trial timelines,
+contour plots, and pruning results.
+
+.. raw:: html
+
+   <figure class="feature-demo-video">
+     <video controls playsinline preload="metadata">
+       <source src="_static/videos/gsoc-demo.mp4" type="video/mp4">
+       Your browser does not support HTML5 video. You can
+       <a href="_static/videos/gsoc-demo.mp4">download the demo video</a>
+       instead.
+     </video>
+     <figcaption>
+       Demonstration of experiment tagging and Optuna integration.
+     </figcaption>
+   </figure>
+
 Deliverable 1: Experiment Tagging
 ----------------------------------------------
 
