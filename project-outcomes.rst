@@ -77,6 +77,21 @@ Frontend Editing and Filtering
 incremental synchronization, tag display and editing, client-side validation,
 cleanup after environment deletion, and tag-aware environment filtering.
 
+.. list-table::
+   :widths: 50 50
+   :class: tagging-screenshot-grid
+
+   * - .. figure:: _static/images/experiment-tag-editor.png
+          :alt: Visdom dialog for editing key-value and key-only experiment tags
+          :width: 100%
+
+          Editing key/value and key-only tags for a Visdom environment.
+     - .. figure:: _static/images/environment-tree-with-tags.png
+          :alt: Visdom environment tree displaying tags next to environment names
+          :width: 100%
+
+          Tags displayed alongside environment names in the environment tree.
+
 Deliverable 2: Optuna Integration and Hyperparameter Visualization
 ------------------------------------------------------------------
 
@@ -100,6 +115,13 @@ identity, and experiment tags while keeping Optuna an optional dependency.
 intermediate values in training-step order and adds a dashboard pane for
 completed and pruned trial trajectories.
 
+.. figure:: _static/images/optuna-intermediate-values.png
+   :alt: Optuna intermediate-value trajectories for completed and pruned trials
+   :width: 40%
+   :align: center
+
+   Intermediate values across completed and pruned trials.
+
 Study Dashboard and Visualizations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -108,6 +130,44 @@ Study Dashboard and Visualizations
 used to inspect the study. It contains study metadata, HParams trial records,
 optimization history, parameter importance, trial links, and a configurable
 timeline and refresh cycle.
+
+.. figure:: _static/images/optuna-hparams-trials.png
+   :alt: Optuna trials displayed in the Visdom HParams view
+   :width: 100%
+   :align: center
+
+   Optuna trials in Visdom’s HParams view with parameters, metrics, tags, and
+   states.
+
+.. list-table::
+   :widths: 50 50
+   :class: optuna-screenshot-grid
+
+   * - .. figure:: _static/images/optuna-history-accuracy.png
+          :alt: Optimization history for accuracy across Optuna trials
+          :width: 80%
+          :align: center
+
+          Optimization history for accuracy across trials.
+     - .. figure:: _static/images/optuna-history-latency.png
+          :alt: Optimization history for latency across Optuna trials
+          :width: 80%
+          :align: center
+
+          Optimization history for latency across trials.
+   * - .. figure:: _static/images/optuna-importance-accuracy.png
+          :alt: Parameter importance for accuracy across Optuna hyperparameters
+          :width: 80%
+          :align: center
+
+          Parameter importance for accuracy across hyperparameters.
+     - .. figure:: _static/images/optuna-importance-latency.png
+          :alt: Parameter importance for latency across Optuna hyperparameters
+          :width: 80%
+          :align: center
+          :class: optuna-crop-top-5
+
+          Parameter importance for latency across hyperparameters.
 
 `#1767 — Add multi-objective Pareto front visualization
 <https://github.com/fossasia/visdom/pull/1767>`_ extends objective metadata,
@@ -119,10 +179,44 @@ Pareto-front view of non-dominated trials.
 short trials visible timeline markers without changing their recorded start
 and completion timestamps.
 
+.. list-table::
+   :widths: 50 50
+   :class: optuna-screenshot-grid
+
+   * - .. figure:: _static/images/optuna-pareto-front.png
+          :alt: Pareto front for accuracy and latency across Optuna trials
+          :width: 80%
+          :align: center
+
+          Pareto front for accuracy and latency across trials.
+     - .. figure:: _static/images/optuna-trial-timeline.png
+          :alt: Timeline across completed Optuna trials
+          :width: 80%
+          :align: center
+
+          Trial timeline across completed Optuna trials.
+
 `#1782 — Add Optuna contour visualization
 <https://github.com/fossasia/visdom/pull/1782>`_ adds configurable
 two-parameter contour panes for each objective, completing the dashboard's
 view of joint hyperparameter effects.
+
+.. list-table::
+   :widths: 50 50
+   :class: optuna-screenshot-grid
+
+   * - .. figure:: _static/images/optuna-contour-accuracy.png
+          :alt: Contour of accuracy across depth and width
+          :width: 80%
+          :align: center
+
+          Contour of accuracy across depth and width.
+     - .. figure:: _static/images/optuna-contour-latency.png
+          :alt: Contour of latency across depth and width
+          :width: 80%
+          :align: center
+
+          Contour of latency across depth and width.
 
 Dashboard Recovery and Shared Trial Selection
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -153,13 +247,23 @@ Architecture and Result
 
 .. code-block:: text
 
-   Application
-       │ creates and injects
+   run_server.py
+       │
+       │ creates and starts
+       │ 
        ▼
-   ServerState
-       │ provides live access
-       ▼
-   HTTP / WebSocket / Polling Handlers
+   Tornado HTTPServer ──────── uses ────────▶ Application
+                                                  │
+                                                  │
+                       ┌──────────────────────────┴────────────────────────┐
+                       │                                                   │
+                       │                                                   │ 
+                       │ creates                                           │registers routes and injects
+                       │                                                   │ 
+                       │                                                   │ 
+                       ▼                                                   ▼
+                  ServerState ◀── access through StateAccessorsMixin ─── Handlers
+                                 
 
 ``Application`` now focuses on constructing the server and registering routes.
 Each state-dependent handler receives the same ``ServerState`` instance.
@@ -183,76 +287,117 @@ Supporting Engineering Outcomes
 -------------------------------
 
 **Environment Correctness and Real-time Transport.** Environment identity now
-remains consistent across server broadcasts,
-browser state, callback registration, state retrieval, direct append updates,
-and both live transports. PRs `#1267
-<https://github.com/fossasia/visdom/pull/1267>`_, `#1279
-<https://github.com/fossasia/visdom/pull/1279>`_, `#1318
-<https://github.com/fossasia/visdom/pull/1318>`_, `#1373
-<https://github.com/fossasia/visdom/pull/1373>`_, and `#1643
-<https://github.com/fossasia/visdom/pull/1643>`_ collectively prevent
-cross-environment messages and callbacks while keeping WebSocket and polling
-dispatch behavior aligned.
+remains consistent across server broadcasts and browser state by attaching
+environment IDs to outgoing pane messages and rejecting stale
+cross-environment messages (`#1267
+<https://github.com/fossasia/visdom/pull/1267>`_). Callback registration is
+scoped by environment and target (`#1279
+<https://github.com/fossasia/visdom/pull/1279>`_), environment-specific state
+can be retrieved through the server and Python client (`#1318
+<https://github.com/fossasia/visdom/pull/1318>`_), and direct append updates
+create missing environments before writing (`#1373
+<https://github.com/fossasia/visdom/pull/1373>`_). WebSocket and polling now use
+the same incoming-message handling path (`#1643
+<https://github.com/fossasia/visdom/pull/1643>`_).
 
-**Backend Architecture, Authentication, and Lifecycle.** Handler dependencies
-and shared state are clearer and less repetitive. `#1627
-<https://github.com/fossasia/visdom/pull/1627>`_ centralizes
-authorization, while `#1556 <https://github.com/fossasia/visdom/pull/1556>`_
-and `#1666
-<https://github.com/fossasia/visdom/pull/1666>`_ harden startup and remove
-legacy execution paths.
+**Backend Architecture, Authentication, and Lifecycle.** Handler authorization
+is less repetitive because authentication checks use a shared ``BaseHandler``
+helper (`#1627 <https://github.com/fossasia/visdom/pull/1627>`_). The server can
+start with ``env_path=None`` and operate without disk-backed environment
+storage (`#1556 <https://github.com/fossasia/visdom/pull/1556>`_), while the
+legacy ``send=False`` path and stale index-page code have been removed (`#1666
+<https://github.com/fossasia/visdom/pull/1666>`_).
 
 **Visualization APIs and Interactive Features.** The public visualization
-surface now includes normalized arbitrary scatter labels, image-history
-selection, Histogram2D, Sankey, and named Learning Curve plots. Embeddings
-gained updated D3 interaction infrastructure, reliable lasso focus, visible
-closure guidance, and optional Python callback registration. These outcomes
-are delivered by PRs `#1276
-<https://github.com/fossasia/visdom/pull/1276>`_, `#1277
-<https://github.com/fossasia/visdom/pull/1277>`_, `#1335
-<https://github.com/fossasia/visdom/pull/1335>`_, `#1428
-<https://github.com/fossasia/visdom/pull/1428>`_, `#1457
-<https://github.com/fossasia/visdom/pull/1457>`_, `#1471
-<https://github.com/fossasia/visdom/pull/1471>`_, `#1475
-<https://github.com/fossasia/visdom/pull/1475>`_, `#1568
-<https://github.com/fossasia/visdom/pull/1568>`_, and `#1585
-<https://github.com/fossasia/visdom/pull/1585>`_.
+surface now includes normalized arbitrary scatter labels (`#1277
+<https://github.com/fossasia/visdom/pull/1277>`_), programmatic image-history
+selection with corrected selected-image updates (`#1335
+<https://github.com/fossasia/visdom/pull/1335>`_), Histogram2D (`#1428
+<https://github.com/fossasia/visdom/pull/1428>`_), Sankey diagrams (`#1457
+<https://github.com/fossasia/visdom/pull/1457>`_), and named Learning Curve
+plots (`#1568 <https://github.com/fossasia/visdom/pull/1568>`_). Embeddings
+gained upgraded D3 interaction packages and adapted lasso handling (`#1276
+<https://github.com/fossasia/visdom/pull/1276>`_), reliable first-attempt lasso
+drill-down, focus, and asynchronous point rendering (`#1471
+<https://github.com/fossasia/visdom/pull/1471>`_), visible closure and
+minimum-selection guidance (`#1475
+<https://github.com/fossasia/visdom/pull/1475>`_), and an option to disable the
+default Python event-handler registration (`#1585
+<https://github.com/fossasia/visdom/pull/1585>`_).
 
-**Frontend UX and Environment Management.** PRs `#1265
-<https://github.com/fossasia/visdom/pull/1265>`_, `#1294
-<https://github.com/fossasia/visdom/pull/1294>`_, `#1312
-<https://github.com/fossasia/visdom/pull/1312>`_, `#1547
-<https://github.com/fossasia/visdom/pull/1547>`_, `#1560
-<https://github.com/fossasia/visdom/pull/1560>`_, `#1678
-<https://github.com/fossasia/visdom/pull/1678>`_, and `#1791
-<https://github.com/fossasia/visdom/pull/1791>`_ improve routine browser use:
-form fields accept keyboard input, text panes support copying, overlays remain
-readable, malformed layouts recover safely, pane relayout is deterministic,
-and large sets of environments can be searched and deleted in filtered
-batches.
+.. list-table::
+   :widths: 50 50
+   :class: supporting-screenshot-grid
 
-**Performance Optimization.** `#1297
-<https://github.com/fossasia/visdom/pull/1297>`_ narrows generic pane
-copying to mutable nested content, while `#1372
-<https://github.com/fossasia/visdom/pull/1372>`_ moves embeddings updates onto
-a bounded specialized path. Together they avoid unnecessary deep-copy,
-serialization, and generic JSON Patch work while preserving update semantics.
+   * - .. figure:: _static/images/histogram2d-gaussian-blob.png
+          :alt: Two-dimensional histogram of a Gaussian blob
+          :width: 80%
+          :align: center
 
-**Testing and CI Modernization.** PRs `#1437
-<https://github.com/fossasia/visdom/pull/1437>`_, `#1597
-<https://github.com/fossasia/visdom/pull/1597>`_, `#1607
-<https://github.com/fossasia/visdom/pull/1607>`_, `#1615
-<https://github.com/fossasia/visdom/pull/1615>`_, `#1622
-<https://github.com/fossasia/visdom/pull/1622>`_, `#1691
-<https://github.com/fossasia/visdom/pull/1691>`_, and `#1705
-<https://github.com/fossasia/visdom/pull/1705>`_ replace Cypress with Playwright
-in stages. Pane interactions, screenshot baselines, visual comparison, polling
-verification, CI commands, and artifacts were migrated before the retired
-Cypress dependencies and configuration were removed.
+          2D histogram of a Gaussian blob.
+     - .. figure:: _static/images/histogram2d-correlated-probability.png
+          :alt: Two-dimensional probability histogram of correlated data
+          :width: 80%
+          :align: center
 
-**Documentation and Maintenance.** PRs `#1494
-<https://github.com/fossasia/visdom/pull/1494>`_, `#1514
-<https://github.com/fossasia/visdom/pull/1514>`_, and `#1521
-<https://github.com/fossasia/visdom/pull/1521>`_ synchronize the plotting API
-documentation, add runnable Sunburst and general Plotly examples, and remove
-obsolete socket documentation.
+          2D probability histogram of correlated data.
+   * - .. figure:: _static/images/sankey-moe-routing.png
+          :alt: Sankey diagram of mixture-of-experts routing
+          :width: 70%
+          :align: center
+
+          MoE routing across experts and output.
+     - .. figure:: _static/images/sankey-pipeline-flow.png
+          :alt: Sankey diagram of a preprocessing and dataset-split pipeline
+          :width: 70%
+          :align: center
+
+          Pipeline flow across preprocessing and dataset splits.
+
+**Frontend UX and Environment Management.** Routine browser use was improved
+across several areas: pane property fields accept keyboard input (`#1265
+<https://github.com/fossasia/visdom/pull/1265>`_), text panes support selection
+and clipboard copying (`#1312
+<https://github.com/fossasia/visdom/pull/1312>`_), and the properties overlay
+has an opaque, readable background (`#1294
+<https://github.com/fossasia/visdom/pull/1294>`_). Environment search accepts
+user input again (`#1547 <https://github.com/fossasia/visdom/pull/1547>`_),
+malformed saved layout data is recovered with user notifications (`#1560
+<https://github.com/fossasia/visdom/pull/1560>`_), and pane relayout uses
+deterministic ordering and consistent state updates (`#1678
+<https://github.com/fossasia/visdom/pull/1678>`_). Large environment collections
+can also be filtered, selected, and deleted in batches while preserving valid
+selections and recovering from deletion of the active environment (`#1791
+<https://github.com/fossasia/visdom/pull/1791>`_).
+
+**Performance Optimization.** Generic pane updates use a shallow top-level copy
+and limit deep copying to nested mutable content (`#1297
+<https://github.com/fossasia/visdom/pull/1297>`_). Embeddings updates use a
+dedicated path with manually constructed JSON Patch operations, bypassing the
+generic ``deepcopy``, ``make_patch``, and serialization flow (`#1372
+<https://github.com/fossasia/visdom/pull/1372>`_). Together, these changes reduce
+unnecessary copying, diff generation, and serialization while preserving
+update semantics.
+
+**Testing and CI Modernization.** Visual regression tooling was adapted to
+Pixelmatch 7 (`#1437 <https://github.com/fossasia/visdom/pull/1437>`_),
+pane-interaction coverage was ported to Playwright (`#1597
+<https://github.com/fossasia/visdom/pull/1597>`_), and readiness-aware
+Playwright screenshot baseline generation was added (`#1607
+<https://github.com/fossasia/visdom/pull/1607>`_). Playwright visual comparison
+and CI artifact flows followed (`#1615
+<https://github.com/fossasia/visdom/pull/1615>`_), while separate WebSocket and
+polling configurations verify which transport is actually active (`#1622
+<https://github.com/fossasia/visdom/pull/1622>`_). Playwright then became the
+default E2E and visual test system across commands, CI, and documentation
+(`#1691 <https://github.com/fossasia/visdom/pull/1691>`_) before the retired
+Cypress tests, configuration, and dependencies were removed (`#1705
+<https://github.com/fossasia/visdom/pull/1705>`_).
+
+**Documentation and Maintenance.** The README plotting documentation and API
+index were synchronized with the implemented APIs (`#1494
+<https://github.com/fossasia/visdom/pull/1494>`_), runnable Sunburst and general
+``plotlyplot`` examples were added (`#1514
+<https://github.com/fossasia/visdom/pull/1514>`_), and a stale SID-generation
+comment was removed from the socket handler (`#1521
+<https://github.com/fossasia/visdom/pull/1521>`_).

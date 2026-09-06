@@ -4,7 +4,7 @@
 Pull Request Inventory
 ======================
 
-This page provides the code-level evidence for the outcomes described in
+This page lists the pull requests behind the outcomes described in
 :doc:`project-outcomes`.
 
 Pull Request Table

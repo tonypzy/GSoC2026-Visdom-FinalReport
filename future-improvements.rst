@@ -10,8 +10,8 @@ Scaling Experiment Tagging
 The experiment-tagging system is complete and integrated across storage,
 authenticated APIs, the Python SDK, live transports, and the browser. I think
 the next step is to validate the feature at scale. For example, we could test
-how it performs when thousands or even tens of thousands of users are running
-programs and using the feature concurrently.
+how it performs under a large number of concurrent clients and experiment
+updates.
 
 Extending Optuna Analytics
 --------------------------

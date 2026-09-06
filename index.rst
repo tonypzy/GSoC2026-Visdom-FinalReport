@@ -21,9 +21,9 @@ Introduction
 ~~~~~~~~~~~~
 
 `Visdom <https://github.com/fossasia/visdom>`_ is a visualization platform for
-live, real-time and interactive machine-learning experiments. This Google
-Summer of Code project focused on improving how Visdom organizes experiment
-tags and visualizes hyperparameter optimization results.
+live, interactive machine-learning experiments. This Google Summer of Code
+project focused on improving how Visdom organizes experiment tags and
+visualizes hyperparameter optimization results.
 
 The project, *Metadata Tracking and Hyperparameter Visualization for Visdom*,
 was completed by `Zhengyang Peng <https://github.com/tonypzy>`_ with

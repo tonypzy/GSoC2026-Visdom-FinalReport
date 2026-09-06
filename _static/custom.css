@@ -180,6 +180,132 @@ body {
   padding-top: 1.25rem;
 }
 
+table.tagging-screenshot-grid,
+table.tagging-screenshot-grid tbody,
+table.tagging-screenshot-grid tr,
+table.tagging-screenshot-grid td {
+  background: transparent;
+  border: 0;
+}
+
+table.tagging-screenshot-grid {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.tagging-screenshot-grid td {
+  padding: 0.5rem;
+  vertical-align: top;
+  width: 50%;
+}
+
+table.tagging-screenshot-grid figure {
+  margin: 0;
+}
+
+table.tagging-screenshot-grid img {
+  aspect-ratio: 1878 / 746;
+  object-fit: cover;
+  object-position: top;
+  width: 100%;
+}
+
+table.tagging-screenshot-grid td:nth-child(2) figure > a {
+  aspect-ratio: 1878 / 746;
+  display: block;
+  overflow: hidden;
+}
+
+table.tagging-screenshot-grid td:nth-child(2) img {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: initial;
+  transform: translateY(-10px);
+}
+
+table.optuna-screenshot-grid,
+table.optuna-screenshot-grid tbody,
+table.optuna-screenshot-grid tr,
+table.optuna-screenshot-grid td {
+  background: #fff !important;
+  background-color: #fff !important;
+  border: 0;
+  box-shadow: none !important;
+}
+
+table.optuna-screenshot-grid {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.optuna-screenshot-grid td {
+  --bs-table-accent-bg: #fff;
+  --bs-table-bg: #fff;
+  --bs-table-bg-type: #fff;
+  box-shadow: none !important;
+  padding: 0.5rem;
+  vertical-align: top;
+  width: 50%;
+}
+
+table.optuna-screenshot-grid figure {
+  margin: 0;
+}
+
+table.optuna-screenshot-grid img {
+  height: auto;
+  width: 100%;
+}
+
+table.supporting-screenshot-grid,
+table.supporting-screenshot-grid tbody,
+table.supporting-screenshot-grid tr,
+table.supporting-screenshot-grid td {
+  background: #fff !important;
+  background-color: #fff !important;
+  border: 0;
+  box-shadow: none !important;
+}
+
+table.supporting-screenshot-grid {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table.supporting-screenshot-grid td {
+  --bs-table-accent-bg: #fff;
+  --bs-table-bg: #fff;
+  --bs-table-bg-type: #fff;
+  box-shadow: none !important;
+  padding: 0.5rem;
+  vertical-align: top;
+  width: 50%;
+}
+
+table.supporting-screenshot-grid figure {
+  margin: 0;
+}
+
+table.supporting-screenshot-grid img {
+  height: auto;
+  width: 100%;
+}
+
+a.optuna-crop-top-5 {
+  aspect-ratio: 920 / 877;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  width: 80%;
+}
+
+a.optuna-crop-top-5 img {
+  height: auto;
+  transform: translateY(-0.566893%);
+  width: 100% !important;
+}
+
 @media (max-width: 960px) {
   body {
     font-size: 1rem;
