@@ -10,9 +10,9 @@ This page lists the pull requests behind the outcomes described in
 Pull Request Table
 ------------------
 
-This table lists all 50 pull requests merged as part of my GSoC 2026 work.
+This table lists all 50 pull requests merged during my GSoC 2026 work.
 
-.. list-table:: Merged Pull Requests (50)
+.. list-table::
    :header-rows: 1
    :widths: 14 56 30
 
