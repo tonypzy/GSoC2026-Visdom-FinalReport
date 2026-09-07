@@ -8,18 +8,20 @@ Project Outcomes
 
 The project produced three main deliverables, together with several supporting
 improvements to Visdom. The first deliverable adds
-structured experiment tagging throughout Visdom. The second connects Optuna
-trial execution to experiment environments and a study-level dashboard. The
-third introduces a shared server-state architecture so request handlers no
-longer depend directly on the Tornado application. All 50 pull requests listed
+structured experiment tagging throughout Visdom. The second integrates Optuna
+with Visdom to track trials and visualize single- and multi-objective
+optimization results. The third introduces a shared server-state architecture
+so request handlers no longer depend directly on the Tornado application. All
+50 pull requests listed
 in the :doc:`pull-request-inventory` have been merged upstream.
 
 Feature Demonstration: Tagging and Optuna Integration
 -----------------------------------------------------
 
-This demo presents the experiment-tagging workflow and the Optuna integration,
-including study dashboards, multi-objective visualizations, trial timelines,
-contour plots, and pruning results.
+This demo presents the experiment tagging workflow and the Optuna integration,
+including study dashboards, optimization history, parameter importance, Pareto
+fronts, trial timelines, contour plots, and pruning visualization for single-
+and multi-objective studies.
 
 .. raw:: html
 
@@ -116,19 +118,17 @@ cleanup after environment deletion, and tag-aware environment filtering.
 Deliverable 2: Optuna Integration and Hyperparameter Visualization
 ------------------------------------------------------------------
 
-The completed Optuna integration covers trial-to-environment mapping, an
-aggregate study dashboard, intermediate-value and pruned-trial trajectories,
-multi-objective Pareto fronts, timelines that preserve short trials,
-configurable contour visualizations, and shared dashboard trial selection
-across callback instances.
+The completed Optuna integration covers trial tracking, study dashboards,
+intermediate values and pruning, multi-objective Pareto fronts, trial timelines,
+contour visualizations, and shared dashboard recovery across callback instances.
 
 Trial Integration and Data Capture
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `#1746 — Add Optuna experiment callback
 <https://github.com/fossasia/visdom/pull/1746>`_ adds an optional
-``OptunaCallback`` that maps each terminal trial to a deterministic Visdom
-environment. It records trial parameters, objective values, state, study
+``OptunaCallback`` that maps each terminal trial to a Visdom environment. It
+records trial parameters, objective values, state, study
 identity, and experiment tags while keeping Optuna an optional dependency.
 
 `#1757 — Visualize Optuna intermediate values and pruned trials
@@ -191,9 +191,9 @@ timeline and refresh cycle.
           Parameter importance for latency across hyperparameters.
 
 `#1767 — Add multi-objective Pareto front visualization
-<https://github.com/fossasia/visdom/pull/1767>`_ extends objective metadata,
-directions, and dashboard generation for multi-objective studies and adds a
-Pareto-front view of non-dominated trials.
+<https://github.com/fossasia/visdom/pull/1767>`_ adds support for multi-objective
+Optuna studies, including objective-specific metrics and optimization
+directions, and adds a Pareto-front view of non-dominated trials.
 
 `#1776 — Keep short Optuna trials visible in the timeline
 <https://github.com/fossasia/visdom/pull/1776>`_ gives zero-duration and very
@@ -219,8 +219,8 @@ and completion timestamps.
 
 `#1782 — Add Optuna contour visualization
 <https://github.com/fossasia/visdom/pull/1782>`_ adds configurable
-two-parameter contour panes for each objective, completing the dashboard's
-view of joint hyperparameter effects.
+contour plots that show how two selected hyperparameters jointly affect each
+optimization objective.
 
 .. list-table::
    :widths: 50 50
@@ -329,18 +329,19 @@ storage (`#1556 <https://github.com/fossasia/visdom/pull/1556>`_), while the
 legacy ``send=False`` path and stale index-page code have been removed (`#1666
 <https://github.com/fossasia/visdom/pull/1666>`_).
 
-**Visualization APIs and Interactive Features.** The public visualization
-surface now includes normalized arbitrary scatter labels (`#1277
-<https://github.com/fossasia/visdom/pull/1277>`_), programmatic image-history
-selection with corrected selected-image updates (`#1335
+**Visualization APIs and Interactive Features.** Scatter plots now support
+arbitrary labels through centralized normalization (`#1277
+<https://github.com/fossasia/visdom/pull/1277>`_). The public visualization
+surface also includes programmatic image-history selection with corrected
+selected-image updates (`#1335
 <https://github.com/fossasia/visdom/pull/1335>`_), Histogram2D (`#1428
 <https://github.com/fossasia/visdom/pull/1428>`_), Sankey diagrams (`#1457
 <https://github.com/fossasia/visdom/pull/1457>`_), and named Learning Curve
-plots (`#1568 <https://github.com/fossasia/visdom/pull/1568>`_). Embeddings
-gained upgraded D3 interaction packages and adapted lasso handling (`#1276
-<https://github.com/fossasia/visdom/pull/1276>`_), reliable first-attempt lasso
-drill-down, focus, and asynchronous point rendering (`#1471
-<https://github.com/fossasia/visdom/pull/1471>`_), visible closure and
+plots (`#1568 <https://github.com/fossasia/visdom/pull/1568>`_). Embedding
+visualizations use updated D3 interaction packages and revised lasso handling
+(`#1276 <https://github.com/fossasia/visdom/pull/1276>`_). They also provide
+reliable first-attempt lasso drill-down, focus, and asynchronous point rendering
+(`#1471 <https://github.com/fossasia/visdom/pull/1471>`_), visible closure and
 minimum-selection guidance (`#1475
 <https://github.com/fossasia/visdom/pull/1475>`_), and an option to disable the
 default Python event-handler registration (`#1585
@@ -388,7 +389,7 @@ malformed saved layout data is recovered with user notifications (`#1560
 deterministic ordering and consistent state updates (`#1678
 <https://github.com/fossasia/visdom/pull/1678>`_). Large environment collections
 can also be filtered, selected, and deleted in batches while preserving valid
-selections and recovering from deletion of the active environment (`#1791
+selections and handling deletion of the active environment correctly (`#1791
 <https://github.com/fossasia/visdom/pull/1791>`_).
 
 **Performance Optimization.** Generic pane updates use a shallow top-level copy
@@ -397,10 +398,9 @@ and limit deep copying to nested mutable content (`#1297
 dedicated path with manually constructed JSON Patch operations, bypassing the
 generic ``deepcopy``, ``make_patch``, and serialization flow (`#1372
 <https://github.com/fossasia/visdom/pull/1372>`_). Together, these changes reduce
-unnecessary copying, diff generation, and serialization while preserving
-update semantics.
+unnecessary copying, diff generation, and serialization during pane updates.
 
-**Testing and CI Modernization.** Visual regression tooling was adapted to
+**Testing and CI Modernization.** Visual regression tooling was updated for
 Pixelmatch 7 (`#1437 <https://github.com/fossasia/visdom/pull/1437>`_),
 pane-interaction coverage was ported to Playwright (`#1597
 <https://github.com/fossasia/visdom/pull/1597>`_), and readiness-aware

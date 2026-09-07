@@ -19,14 +19,14 @@ Extending Optuna Analytics
 The Optuna integration can be extended beyond the completed callback and
 study dashboard to better support multi-process and multi-node optimization.
 Workers can already contribute trial records to one dashboard through stable
-tags, but dashboard refreshes still require a designated writer. One possible
-next step is to coordinate dashboard updates across processes or nodes,
+tags, but dashboard refreshes still require a single designated writer. One
+possible next step is to coordinate dashboard updates across processes or nodes,
 allowing a distributed study to update a shared Visdom dashboard safely.
 
 Another useful extension would be real-time trial monitoring. Intermediate values
 are currently written to Visdom only after a trial finishes. A streaming
 reporter could send them while training is running, allowing users to follow
-trial progress and pruning behavior in real time.
+trial progress and observe pruning behavior in real time.
 
 Expanding Visualization APIs
 ----------------------------

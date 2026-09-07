@@ -156,6 +156,12 @@ body {
 
 .bd-sidebar-secondary {
   border-left: 1px solid var(--pst-color-border);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bd-sidebar-secondary::-webkit-scrollbar {
+  display: none;
 }
 
 @media (min-width: 1200px) {
