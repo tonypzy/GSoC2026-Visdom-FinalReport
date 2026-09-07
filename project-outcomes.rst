@@ -262,9 +262,16 @@ runtime values. The problem is documented in `Issue #1383
 Architecture and Result
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-`#1384 — Introduce ServerState to decouple handlers from Application
-<https://github.com/fossasia/visdom/pull/1384>`_ introduces a shared
-``ServerState`` facade:
+Earlier refactoring centralized shared initialization for HTTP handlers
+(`#1355 <https://github.com/fossasia/visdom/pull/1355>`_) and extended the same
+mechanism to WebSocket and polling handlers (`#1591
+<https://github.com/fossasia/visdom/pull/1591>`_). These changes removed
+duplicated initialization, but handlers still received ``Application`` and
+copied its shared attributes during initialization.
+
+To remove this remaining coupling, `#1384 — Introduce ServerState to decouple
+handlers from Application <https://github.com/fossasia/visdom/pull/1384>`_
+introduces a shared ``ServerState`` facade:
 
 .. code-block:: text
 
@@ -286,8 +293,10 @@ Architecture and Result
                   ServerState ◀── access through StateAccessorsMixin ─── Handlers
                                  
 
-``Application`` now focuses on constructing the server and registering routes.
-Each state-dependent handler receives the same ``ServerState`` instance.
+``Application`` initializes the storage, state, settings, and routes during
+server startup, while ``ServerState`` provides the shared runtime state used by
+HTTP, WebSocket, and polling handlers. Each state-dependent handler receives
+the same ``ServerState`` instance.
 ``StateAccessorsMixin`` preserves familiar access such as ``self.state`` while
 resolving it through the shared state instead of copying it during
 initialization.
