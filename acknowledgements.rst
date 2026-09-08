@@ -15,8 +15,8 @@ engineering.
 I am especially grateful to `Mario Behling
 <https://github.com/mariobehling>`_, my mentor during GSoC, for his guidance and
 support throughout the program. We had many meetings and discussions
-throughout the program, and I really appreciate the time and effort he put into
-supporting the team and keeping the project moving forward.
+during GSoC, and I really appreciate the time and effort he put into supporting
+the team and keeping the project moving forward.
 
 I would also like to thank `Marco A. Gutierrez
 <https://github.com/marcoag>`_, `Norbert Preining
@@ -29,5 +29,5 @@ My thanks also go to my fellow Visdom contributors, `Manik Khajuria
 <https://github.com/vedansh-5>`_, `rajnisht7
 <https://github.com/rajnisht7>`_, and `Jayant Parashar
 <https://github.com/Jayantparashar10>`_. I learned a lot from working with
-them, and I truly appreciate the time and effort they put into reviewing my
-pull requests and providing feedback.
+them, and I am very grateful for their thoughtful pull request reviews and the
+valuable feedback they shared with me.
