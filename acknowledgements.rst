@@ -14,14 +14,14 @@ engineering.
 
 I am especially grateful to `Mario Behling
 <https://github.com/mariobehling>`_, my mentor during GSoC, for his guidance and
-support throughout the program. We had many meetings and discussions
-during GSoC, and I really appreciate the time and effort he put into supporting
-the team and keeping the project moving forward.
+support throughout the program. There are many meetings and discussions. I
+really appreciate the time and effort he put into supporting us and keeping the
+project moving forward.
 
 I would also like to thank `Marco A. Gutierrez
 <https://github.com/marcoag>`_, `Norbert Preining
 <https://github.com/norbusan>`_, and `Duy Pham <https://github.com/pduy>`_ for
-their guidance, particularly during discussions that helped us clarify the
+their advice, particularly during discussions that helped us clarify the
 scope and direction of our GSoC projects.
 
 My thanks also go to my fellow Visdom contributors, `Manik Khajuria
