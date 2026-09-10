@@ -7,7 +7,7 @@ copyright = "2026, Zhengyang Peng"
 root_doc = "index"
 language = "en"
 extensions = []
-templates_path = []
+templates_path = ["_templates"]
 exclude_patterns = ["_build", ".venv", "Thumbs.db", ".DS_Store"]
 
 html_theme = "sphinx_book_theme"

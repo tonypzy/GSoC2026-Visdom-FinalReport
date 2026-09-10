@@ -2,12 +2,9 @@
 
 .. _gsoc-final-report:
 
-==========================
-Google Summer of Code 2026
-==========================
-
-.. rubric:: Metadata Tracking and Hyperparameter Visualization for Visdom
-   :class: project-subtitle
+==============================================================
+Metadata Tracking and Hyperparameter Visualization for Visdom
+==============================================================
 
 .. image:: visdom.svg
    :alt: Visdom logo
