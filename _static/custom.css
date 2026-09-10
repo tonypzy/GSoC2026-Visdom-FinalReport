@@ -61,7 +61,7 @@ body {
 .bd-article .project-eyebrow {
   color: var(--pst-color-text-muted);
   font-family: var(--pst-font-family-heading);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 650;
   letter-spacing: 0.1em;
   line-height: 1.4;
